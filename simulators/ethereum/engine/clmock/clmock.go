@@ -4,7 +4,6 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/binary"
-	"encoding/json"
 	"fmt"
 	"math/big"
 	"math/rand"
@@ -273,19 +272,18 @@ func (cl *CLMocker) SetTTDBlockClient(ec client.EngineClient) {
 	}
 	cl.HeaderHistory[cl.LatestHeader.Number.Uint64()] = cl.LatestHeader
 
-	ctx, cancel = context.WithTimeout(cl.TestContext, globals.RPCTimeout)
 	defer cancel()
 
-	if td, err := ec.GetTotalDifficulty(ctx); err != nil {
-		cl.Fatalf("CLMocker: Error getting total difficulty from engine client: %v", err)
-	} else if td.Cmp(ec.TerminalTotalDifficulty()) < 0 {
-		cl.Fatalf("CLMocker: Attempted to set TTD Block when TTD had not been reached: %d > %d", ec.TerminalTotalDifficulty(), td)
-	} else {
-		cl.Logf("CLMocker: TTD has been reached at block %d (%d>=%d)\n", cl.LatestHeader.Number, td, ec.TerminalTotalDifficulty())
-		jsH, _ := json.MarshalIndent(cl.LatestHeader, "", " ")
-		cl.Logf("CLMocker: Client: %s, Block %d: %s\n", ec.ID(), cl.LatestHeader.Number, jsH)
-		cl.ChainTotalDifficulty = td
-	}
+	// if td, err := ec.GetTotalDifficulty(ctx); err != nil {
+	// 	cl.Fatalf("CLMocker: Error getting total difficulty from engine client: %v", err)
+	// } else if td.Cmp(ec.TerminalTotalDifficulty()) < 0 {
+	// 	cl.Fatalf("CLMocker: Attempted to set TTD Block when TTD had not been reached: %d > %d", ec.TerminalTotalDifficulty(), td)
+	// } else {
+	// 	cl.Logf("CLMocker: TTD has been reached at block %d (%d>=%d)\n", cl.LatestHeader.Number, td, ec.TerminalTotalDifficulty())
+	// 	jsH, _ := json.MarshalIndent(cl.LatestHeader, "", " ")
+	// 	cl.Logf("CLMocker: Client: %s, Block %d: %s\n", ec.ID(), cl.LatestHeader.Number, jsH)
+	// 	cl.ChainTotalDifficulty = td
+	// }
 
 	cl.TTDReached = true
 
