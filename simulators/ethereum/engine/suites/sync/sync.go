@@ -39,6 +39,23 @@ func (DefaultSyncVariantGenerator) Configure(*big.Int, string, string) []SyncTes
 	}
 }
 
+// ethereumrust sync test variant generator
+type EthereumRustSyncVariantGenerator struct{}
+
+func (EthereumRustSyncVariantGenerator) Configure(*big.Int, string, string) []SyncTestVariant {
+	return []SyncTestVariant{
+		{
+			Name: "Snap",
+			MainClientConfig: hivesim.Params{
+				"HIVE_NODETYPE": "snap",
+			},
+			SyncClientConfig: hivesim.Params{
+				"HIVE_NODETYPE": "snap",
+			},
+		},
+	}
+}
+
 // Go-ethereum sync test variant generator
 type GethSyncVariantGenerator struct{}
 
@@ -179,6 +196,7 @@ func (NethermindSyncVariantGenerator) Configure(TTD *big.Int, GenesisFile string
 
 // Lists the types of sync supported by each client.
 var ClientToSyncVariantGenerator = map[string]SyncVariantGenerator{
-	"go-ethereum": GethSyncVariantGenerator{},
-	"nethermind":  NethermindSyncVariantGenerator{},
+	"go-ethereum":  GethSyncVariantGenerator{},
+	"nethermind":   NethermindSyncVariantGenerator{},
+	"ethereumrust": EthereumRustSyncVariantGenerator{},
 }
