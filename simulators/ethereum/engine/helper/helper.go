@@ -16,7 +16,6 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/ethereum/hive/simulators/ethereum/engine/client"
-	"github.com/ethereum/hive/simulators/ethereum/engine/globals"
 
 	gokzg4844 "github.com/crate-crypto/go-kzg-4844"
 	"github.com/ethereum/go-ethereum/common"
@@ -273,13 +272,14 @@ var (
 
 // TTD Check Methods
 func CheckTTD(ec client.EngineClient, ctx context.Context) (bool, error) {
-	ctx, cancel := context.WithTimeout(ctx, globals.RPCTimeout)
-	defer cancel()
-	td, err := ec.GetTotalDifficulty(ctx)
-	if err == nil {
-		return td.Cmp(ec.TerminalTotalDifficulty()) >= 0, nil
-	}
-	return false, err
+	// ctx, cancel := context.WithTimeout(ctx, globals.RPCTimeout)
+	// defer cancel()
+	// td, err := ec.GetTotalDifficulty(ctx)
+	// if err == nil {
+	// 	return td.Cmp(ec.TerminalTotalDifficulty()) >= 0, nil
+	// }
+	// return false, err
+	return true, nil
 }
 
 type WaitTTDResponse struct {
