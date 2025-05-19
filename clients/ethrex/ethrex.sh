@@ -94,7 +94,6 @@ else
     exit 1
 fi
 
->>>>>>> a20a145 (clients/ethrex: adding ethrex (#1286))
 FLAGS="$FLAGS  $HIVE_ETHREX_FLAGS"
 
 # Launch the main client.
