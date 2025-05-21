@@ -3,10 +3,15 @@
 # Immediately abort the script on any error encountered
 set -ex
 
+cargo install flamegraph
+
 # no ansi colors
 export RUST_LOG_STYLE=never
 
-ethrex=./ethrex
+export CARGO_PROFILE_RELEASE_DEBUG=true 
+export RUST_LOG=3  
+#ethrex="cargo flamegraph --features libmdbx --bin ethrex --"
+ethrex="/root/.cargo/bin/flamegraph -- ./ethrex"
 
 # Create the data directory.
 # DATADIR="/ethrex-hive-datadir"
@@ -33,7 +38,7 @@ case "$HIVE_LOGLEVEL" in
     4)   LOG=debug ;;
     5)   LOG=trace ;;
 esac
-FLAGS="$FLAGS --log.level=$LOG"
+# FLAGS="$FLAGS --log.level=$LOG"
 
 # Dump genesis.
 if [ "$HIVE_LOGLEVEL" -lt 4 ]; then
@@ -110,6 +115,10 @@ fi
 
 FLAGS="$FLAGS  $HIVE_ETHREX_FLAGS"
 
+cp /usr/lib/linux-tools-6.8.0-60/perf /usr/bin/perf
+
 # Launch the main client.
 echo "Running ethrex with flags: $FLAGS"
+echo $ethrex $FLAGS
 $ethrex $FLAGS
+sleep 60

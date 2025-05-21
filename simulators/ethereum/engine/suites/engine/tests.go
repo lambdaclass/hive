@@ -395,6 +395,8 @@ func init() {
 		},
 	)
 
+	Tests = append(Tests, BlazingSpeed{})
+
 	// Fork ID Tests
 	for genesisTimestamp := uint64(0); genesisTimestamp <= 1; genesisTimestamp++ {
 		for forkTime := uint64(0); forkTime <= 2; forkTime++ {

@@ -195,11 +195,11 @@ func (b *ContainerBackend) StartContainer(ctx context.Context, containerID strin
 // DeleteContainer removes the given container. If the container is running, it is stopped.
 func (b *ContainerBackend) DeleteContainer(containerID string) error {
 	b.logger.Debug("removing container", "container", containerID[:8])
-	err := b.client.RemoveContainer(docker.RemoveContainerOptions{ID: containerID, Force: true})
-	if err != nil {
-		b.logger.Error("can't remove container", "container", containerID[:8], "err", err)
-	}
-	return err
+	//err := b.client.RemoveContainer(docker.RemoveContainerOptions{ID: containerID, Force: true})
+	//if err != nil {
+	//	b.logger.Error("can't remove container", "container", containerID[:8], "err", err)
+	//}
+	return nil
 }
 
 // PauseContainer pauses the given container.

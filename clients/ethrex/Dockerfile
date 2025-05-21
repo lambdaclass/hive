@@ -5,7 +5,13 @@ FROM $baseimage:$tag as builder
 
 # Install script tools.
 RUN apt-get update -y
-RUN apt-get install -y bash curl jq
+RUN apt-get install -y bash curl jq clang pkg-config libssl-dev linux-tools-generic
+
+# Installs Cargo
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path && \
+    ln -s $HOME/.cargo/bin/* /usr/local/bin/
+
+RUN cargo install flamegraph
 
 # Add genesis mapper script.
 ADD genesis.json /genesis.json
