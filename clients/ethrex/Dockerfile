@@ -3,7 +3,7 @@
 # Removing this from here now, but the upstream version should use the ghcr.io version
 # For now, users needs to build locally ethrex
 # ARG baseimage=ghcr.io/lambdaclass/ethrex 
-ARG baseimage=ethrex # We don
+ARG baseimage=ethrex
 
 ARG tag=latest
 
