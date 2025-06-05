@@ -2152,21 +2152,17 @@ func (ws *GetPayloadBodiesSpec) Execute(t *test.Env) {
 		if ws.RequestsRepeat > 0 {
 			repeat = ws.RequestsRepeat
 		}
-		// We run this loop in it's own goroutine to avoid getting
-		// blocked in case the Verify fails and the remaining requests in
-		// workChan are not processed, blocking the channel push.
-		go func() {
-			for j := 0; j < repeat; j++ {
-				requests_size := len(ws.GetPayloadBodiesRequests)
-				for i, req := range ws.GetPayloadBodiesRequests {
-					workChan <- &RequestIndex{
-						Request: req,
-						Index:   i + (j * requests_size),
-					}
+		for j := 0; j < repeat; j++ {
+			requests_size := len(ws.GetPayloadBodiesRequests)
+			for i, req := range ws.GetPayloadBodiesRequests {
+				workChan <- &RequestIndex{
+					Request: req,
+					Index:   i + (j * requests_size),
 				}
 			}
-			close(workChan)
-		}()
+		}
+
+		close(workChan)
 		wg.Wait()
 	} else {
 		for i, req := range ws.GetPayloadBodiesRequests {
