@@ -2153,11 +2153,10 @@ func (ws *GetPayloadBodiesSpec) Execute(t *test.Env) {
 			repeat = ws.RequestsRepeat
 		}
 		for j := 0; j < repeat; j++ {
-			requests_size := len(ws.GetPayloadBodiesRequests)
 			for i, req := range ws.GetPayloadBodiesRequests {
 				workChan <- &RequestIndex{
 					Request: req,
-					Index:   i + (j * requests_size),
+					Index:   i + (j * repeat),
 				}
 			}
 		}
