@@ -103,7 +103,7 @@ if [ "$HIVE_NODETYPE" == "snap" ]; then
     FLAGS="$FLAGS --syncmode snap"
 fi
 if [ "$HIVE_NODETYPE" == "" ]; then
-    FLAGS="$FLAGS --syncmode snap"
+    FLAGS="$FLAGS --syncmode full"
 fi
 
 # Launch the main client.
