@@ -2168,7 +2168,6 @@ func (ws *GetPayloadBodiesSpec) Execute(t *test.Env) {
 			close(workChan)
 		}()
 
-		close(workChan)
 		wg.Wait()
 	} else {
 		for i, req := range ws.GetPayloadBodiesRequests {
