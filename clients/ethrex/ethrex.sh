@@ -32,13 +32,24 @@ else
     cat /genesis.json
 fi
 
-echo "Command flags till now:"
-echo $FLAGS
-
 # Initialize the local testchain with the genesis state
 # echo "Initializing database with genesis state..."
 # $ethrex init $FLAGS --chain /genesis.json
 FLAGS="$FLAGS --network /genesis.json"
+
+# Set syncmode
+if [ "$HIVE_NODETYPE" == "full" ]; then
+    FLAGS="$FLAGS --syncmode full"
+fi
+if [ "$HIVE_NODETYPE" == "snap" ]; then
+    FLAGS="$FLAGS --syncmode snap"
+fi
+if [ "$HIVE_NODETYPE" == "" ]; then
+    FLAGS="$FLAGS --syncmode snap"
+fi
+
+echo "Command flags till now:"
+echo $FLAGS
 
 # Don't immediately abort, some imports are meant to fail
 set +ex
@@ -93,17 +104,6 @@ if [ "$HIVE_TERMINAL_TOTAL_DIFFICULTY" != "" ]; then
 else
     # We dont exit because some tests require this
     echo "Warning: HIVE_TERMINAL_TOTAL_DIFFICULTY not supported."
-fi
-
-# Set syncmode
-if [ "$HIVE_NODETYPE" == "full" ]; then
-    FLAGS="$FLAGS --syncmode full"
-fi
-if [ "$HIVE_NODETYPE" == "snap" ]; then
-    FLAGS="$FLAGS --syncmode snap"
-fi
-if [ "$HIVE_NODETYPE" == "" ]; then
-    FLAGS="$FLAGS --syncmode full"
 fi
 
 # Launch the main client.
