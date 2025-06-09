@@ -41,6 +41,20 @@ echo $FLAGS
 # $ethrex init $FLAGS --chain /genesis.json
 FLAGS="$FLAGS --network /genesis.json"
 
+# Set syncmode
+if [ "$HIVE_NODETYPE" == "full" ]; then
+    FLAGS="$FLAGS --syncmode full"
+fi
+if [ "$HIVE_NODETYPE" == "snap" ]; then
+    FLAGS="$FLAGS --syncmode snap"
+fi
+if [ "$HIVE_NODETYPE" == "" ]; then
+    FLAGS="$FLAGS --syncmode full"
+fi
+
+echo "Command flags till now:"
+echo $FLAGS
+
 # Don't immediately abort, some imports are meant to fail
 set +ex
 
