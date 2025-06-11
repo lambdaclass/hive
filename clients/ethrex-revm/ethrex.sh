@@ -33,9 +33,6 @@ else
     cat /genesis.json
 fi
 
-echo "Command flags till now:"
-echo $FLAGS
-
 # Initialize the local testchain with the genesis state
 # echo "Initializing database with genesis state..."
 # $ethrex init $FLAGS --chain /genesis.json
