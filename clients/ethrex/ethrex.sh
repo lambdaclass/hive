@@ -32,13 +32,21 @@ else
     cat /genesis.json
 fi
 
-echo "Command flags till now:"
-echo $FLAGS
-
 # Initialize the local testchain with the genesis state
 # echo "Initializing database with genesis state..."
 # $ethrex init $FLAGS --chain /genesis.json
 FLAGS="$FLAGS --network /genesis.json"
+
+# Set syncmode
+if [ "$HIVE_NODETYPE" == "full" ]; then
+    FLAGS="$FLAGS --syncmode full"
+fi
+if [ "$HIVE_NODETYPE" == "snap" ]; then
+    FLAGS="$FLAGS --syncmode snap"
+fi
+
+echo "Command flags till now:"
+echo $FLAGS
 
 # Don't immediately abort, some imports are meant to fail
 set +ex
@@ -47,7 +55,7 @@ set +ex
 echo "Loading initial blockchain..."
 if [ -f /chain.rlp ]; then
     echo "Importing chain.rlp..."
-    $ethrex $FLAGS $HIVE_ETHREX_FLAGS import /chain.rlp
+    $ethrex $FLAGS import /chain.rlp
 else
     echo "Warning: chain.rlp not found."
 fi
@@ -55,7 +63,7 @@ fi
 # Load the remainder of the test chain
 if [ -d /blocks ]; then
     echo "Loading remaining individual blocks..."
-    $ethrex $FLAGS $HIVE_ETHREX_FLAGS import /blocks
+    $ethrex $FLAGS import /blocks
 else
     echo "Warning: blocks folder not found."
 fi
@@ -94,8 +102,6 @@ else
     # We dont exit because some tests require this
     echo "Warning: HIVE_TERMINAL_TOTAL_DIFFICULTY not supported."
 fi
-
-FLAGS="$FLAGS  $HIVE_ETHREX_FLAGS"
 
 # Launch the main client.
 echo "Running ethrex with flags: $FLAGS"
